@@ -1,0 +1,41 @@
+.board {
+  display: -moz-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-lines: single;
+  -moz-box-lines: single;
+  -webkit-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -ms-flex-line-pack: start;
+  -webkit-align-content: flex-start;
+  -moz-align-content: flex-start;
+  -ms-align-content: flex-start;
+  align-content: flex-start;
+  -webkit-flex-flow: row-wrap nowrap;
+  -moz-flex-flow: row-wrap nowrap;
+  -ms-flex-flow: row-wrap nowrap;
+  flex-flow: row-wrap nowrap;
+  border: 1px solid #e5e5e5;
+  width: 900px;
+  height: 900px;
+  margin: auto;
+}
+.pad {
+  width: 300px;
+  height: 300px;
+  border: 1px solid red;
+}
