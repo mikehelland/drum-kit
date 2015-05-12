@@ -34,7 +34,9 @@ Board = React.createClass
         'Edit'
 
     <div className="board-container">
-      <button onClick={@toggleEdit}>{editLabel}</button>
+      <img src="https://s3.amazonaws.com/octoblu-www/assets/images/octoblu-inverse.png" alt="Octoblu" className="board__logo" />
+      <h1>808-Blu</h1>
+      <a className="button" onClick={@toggleEdit}>{editLabel}</a>
 
       <div className="board">
         {@renderPads()}

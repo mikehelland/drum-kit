@@ -1,3 +1,12 @@
+.board-container {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  border: 1px solid #3d3d3d;
+  margin: auto;
+  background-color: #3d3d3d;
+  padding: 100px 50px 100px 50px;
+}
 .board {
   display: -moz-box;
   display: -webkit-box;
@@ -29,13 +38,33 @@
   -moz-flex-flow: row-wrap nowrap;
   -ms-flex-flow: row-wrap nowrap;
   flex-flow: row-wrap nowrap;
-  border: 1px solid #e5e5e5;
-  width: 900px;
-  height: 900px;
-  margin: auto;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  border: 1px solid #E9EAEE;
+  margin: 25px auto;
+  background-color: #E9EAEE;
+  padding: 50px 50px 50px 50px;
 }
 .pad {
   width: 300px;
   height: 300px;
-  border: 1px solid red;
+  background-color: #FFF;
+  margin: 15px 10px 15px 0;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+.button {
+  border: 1px solid #FFF;
+  border-radius: 20px;
+  padding: 15px 50px;
+  display: inline-block;
+  background: transparent;
+  color: #FFF;
+  text-transform: uppercase;
+}
+.board__logo {
+  width: 150px;
+  height: auto;
 }
