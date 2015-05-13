@@ -33,10 +33,13 @@ SAMPLES = [{
 
 Pad = React.createClass
   setupSound: (event) ->
-    @props.sample = event.target.value;
+    console.log(event);
+    @props.sample ={
+      url : event.target.value
+      };
     return unless @props.sample
     @sound = new Howl {
-      urls: [@props.sample],
+      urls: [@props.sample.url],
       volume: 0.5,
       buffer: true,
       onend: ->
@@ -59,9 +62,9 @@ Pad = React.createClass
     console.log 'SAMPLES', SAMPLES
     self = @
     samples = _.map SAMPLES, (sample) ->
-      <option value={sample.sampleUrl}>{sample.name}</option>
+      <option sample={sample.name} value={sample.sampleUrl}>{sample.name}</option>
 
-    <div>
+    <div className="pad">
       <select onChange={self.setupSound}>
         {samples}
       </select>

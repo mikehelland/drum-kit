@@ -21,6 +21,7 @@
     "coffee-script": "^1.9.2",
     "howler": "^1.1.26",
     "lodash": "^3.7.0",
+    "meshblu": "^1.22.0",
     "node-uuid": "^1.4.3",
     "react": "^0.13.2",
     "react-router": "^0.13.3",
