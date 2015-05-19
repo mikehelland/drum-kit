@@ -2,28 +2,22 @@ _ = require 'lodash'
 pads = require './pads'
 Pad = require './pad'
 React = require 'react'
-meshblu = require 'meshblu'
 
-meshblu_uuid = '4aad85a3-2a65-448c-86b7-ac8b4779e9ff'
-meshblu_token = '040be06480430fdd3f8d2eea14ea9d0c18b9e8be'
+
 
 Board = React.createClass
-  getInitialState: =>
+  getInitialState: ->
     isEditing: false
 
-  componentWillMount: =>
-    @conn = meshblu.createConnection({ uuid: meshblu_uuid, token: meshblu_token });
-    @conn.onMessage (message) =>
-
-  playNote: =>
+  playNote: ->
     return
 
-  toggleEdit: =>
+  toggleEdit: ->
     @setState isEditing: !@state.isEditing
 
-  renderPads: =>
+  renderPads: ->
     self = @
-    _.map pads, (pad) =>
+    _.map pads, (pad) ->
       console.log 'Pad', pad
       <Pad
         name={pad.name}
@@ -32,7 +26,7 @@ Board = React.createClass
         isEditing={self.state.isEditing}
         />
 
-  render: =>
+  render: ->
     editLabel =
       if @state.isEditing
         'Play'
