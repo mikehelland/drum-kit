@@ -2,12 +2,38 @@ _ = require 'lodash'
 pads = require './pads'
 Pad = require './pad'
 React = require 'react'
-
-
+Meshblu = require 'meshblu'
 
 Board = React.createClass
   getInitialState: ->
     isEditing: false
+
+  componentWillMount: ->
+    uuid = localStorage.deviceUUID || undefined
+    token = localStorage.deviceToken || undefined
+
+    @connection = Meshblu.createConnection
+                    uuid : uuid
+                    token : token
+    @connection.on 'ready', (device) =>
+      localStorage.deviceUUID = device.uuid
+      localStorage.deviceToken = device.token
+
+      console.log "Device", device
+      @connection.update type : 'meshblu:drum-kit'
+
+      @connection.device
+        uuid: localStorage.deviceUUID
+        token: localStorage.deviceToken
+        (drumkit) =>
+          console.log "drumkit", drumkit.device
+
+
+
+
+  saveStateForPad:(padState) ->
+    @connection.update padState, (updatedDevice) =>
+      console.log 'Updated Device', updatedDevice
 
   playNote: ->
     return
@@ -18,12 +44,15 @@ Board = React.createClass
   renderPads: ->
     self = @
     _.map pads, (pad) ->
+      # sample = sampleFromMeshblu || pad.sample
       console.log 'Pad', pad
       <Pad
         name={pad.name}
         key={pad.id}
         sample={pad.sample}
         isEditing={self.state.isEditing}
+        onSave={self.saveStateForPad}
+        meshbluConnection={self.connection}
         />
 
   render: ->

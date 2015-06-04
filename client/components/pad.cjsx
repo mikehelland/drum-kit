@@ -33,7 +33,7 @@ SAMPLES = [{
 
 Pad = React.createClass
   setupSound: (event) ->
-    console.log(event);
+    console.log(event, @props);
     @props.sample ={
       url : event.target.value
       };
@@ -42,15 +42,16 @@ Pad = React.createClass
       urls: [@props.sample.url],
       volume: 0.5,
       buffer: true,
-      onend: ->
-        console.log 'Done!'
-
-      onload: ->
-        console.log 'Loaded'
+      onload: =>
+        padState = {}
+        padState[@props.name] = @props.sample
+        @props.onSave padState
     }
 
   componentDidMount: ->
-    console.log 'BOOM!'
+    @meshbluConnection = @props.meshbluConnection
+    @meshbluConnection.on 'message', (message) =>
+      console.log 'Message Received', message
 
   playSample: (sampleUrl) ->
 
@@ -61,7 +62,7 @@ Pad = React.createClass
   renderEditMode: ->
     console.log 'SAMPLES', SAMPLES
     self = @
-    samples = _.map SAMPLES, (sample) ->
+    samples = _.map SAMPLES, (sample) =>
       <option sample={sample.name} value={sample.sampleUrl}>{sample.name}</option>
 
     <div className="pad">

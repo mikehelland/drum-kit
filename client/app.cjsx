@@ -6,6 +6,7 @@ Router = require('react-router')
 App = React.createClass
   displayName: 'App'
 
+
   render: ->
     <RouteHandler/>
 
