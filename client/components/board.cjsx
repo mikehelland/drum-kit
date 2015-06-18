@@ -3,6 +3,14 @@ pads = require './pads'
 Pad = require './pad'
 React = require 'react'
 Meshblu = require 'meshblu'
+MessageSchema =
+  type : 'object'
+  properties :
+    play :
+      type : 'string',
+      enum : ['Pad1', 'Pad2', 'Pad3', 'Pad4', 'Pad5', 'Pad6', 'Pad7', 'Pad8', 'Pad9']
+
+
 
 Board = React.createClass
   getInitialState: ->
@@ -20,7 +28,9 @@ Board = React.createClass
       localStorage.deviceToken = device.token
 
       console.log "Device", device
-      @connection.update type : 'meshblu:drum-kit'
+      @connection.update 
+        type : 'meshblu:drum-kit'
+        messageSchema : MessageSchema
 
       @connection.device
         uuid: localStorage.deviceUUID

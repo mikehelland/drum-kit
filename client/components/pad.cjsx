@@ -33,10 +33,9 @@ SAMPLES = [{
 
 Pad = React.createClass
   setupSound: (event) ->
-    console.log(event, @props);
-    @props.sample ={
-      url : event.target.value
-      };
+    console.log event, @props
+    @props.sample = url : event.target.value
+
     return unless @props.sample
     @sound = new Howl {
       urls: [@props.sample.url],
@@ -49,11 +48,14 @@ Pad = React.createClass
     }
 
   componentDidMount: ->
+    self = @
     @meshbluConnection = @props.meshbluConnection
     @meshbluConnection.on 'message', (message) =>
-      console.log 'Message Received', message
-
-  playSample: (sampleUrl) ->
+      console.log 'Message received', message
+      console.log 'Properties', @props
+      play = message.play || message.payload?.play
+      if play == @props.name
+        self.playNote()
 
   playNote: ->
     console.log 'Playing the sample', @props.sample
