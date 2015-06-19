@@ -1,5 +1,5 @@
 _ = require 'lodash'
-pads = require './pads'
+samples = require './samples'
 Pad = require './pad'
 React = require 'react'
 Meshblu = require 'meshblu'
@@ -23,12 +23,12 @@ Board = React.createClass
     @connection = Meshblu.createConnection
                     uuid : uuid
                     token : token
+
     @connection.on 'ready', (device) =>
       localStorage.deviceUUID = device.uuid
       localStorage.deviceToken = device.token
 
-      console.log "Device", device
-      @connection.update 
+      @connection.update
         type : 'meshblu:drum-kit'
         messageSchema : MessageSchema
 
@@ -36,14 +36,9 @@ Board = React.createClass
         uuid: localStorage.deviceUUID
         token: localStorage.deviceToken
         (drumkit) =>
-          console.log "drumkit", drumkit.device
-
-
-
 
   saveStateForPad:(padState) ->
     @connection.update padState, (updatedDevice) =>
-      console.log 'Updated Device', updatedDevice
 
   playNote: ->
     return
@@ -53,29 +48,28 @@ Board = React.createClass
 
   renderPads: ->
     self = @
-    _.map pads, (pad) ->
+    _.map samples, (sample, index) ->
       # sample = sampleFromMeshblu || pad.sample
-      console.log 'Pad', pad
       <Pad
-        name={pad.name}
-        key={pad.id}
-        sample={pad.sample}
+        sample={sample}
         isEditing={self.state.isEditing}
         onSave={self.saveStateForPad}
         meshbluConnection={self.connection}
         />
 
-  render: ->
+  renderEditLabel : ->
     editLabel =
       if @state.isEditing
         'Play'
       else
         'Edit'
+    editLabel
 
+  render: ->
     <div className="board-container">
       <img src="https://s3.amazonaws.com/octoblu-www/assets/images/octoblu-inverse.png" alt="Octoblu" className="board__logo" />
       <h1>808-Blu</h1>
-      <a className="button" onClick={@toggleEdit}>{editLabel}</a>
+      <a className="button" onClick={@toggleEdit}>{@renderEditLabel}</a>
 
       <div className="board">
         {@renderPads()}
