@@ -1,7 +1,5 @@
 React = require 'react'
 Howl = require('howler').Howl
-Selector = require './selector'
-Trigger = require './trigger'
 
 SAMPLES = [{
   name : 'Kick',
@@ -29,65 +27,61 @@ SAMPLES = [{
   sampleUrl : './assets/samples/snare.wav'
 },
 {
-  name : 'Snare 2',
-  sampleUrl : './assets/samples/snare (2).WAV'
-},
-{
   name : 'Tom',
   sampleUrl : './assets/samples/tom.wav'
-},
-{
-  name : 'Tom 2',
-  sampleUrl : './assets/samples/tom.wav'
-},
-]
+}]
 
 Pad = React.createClass
-  # setupSound: (event) ->
-  #   @props.sample = url : event.target.value
-  #
-  #   return unless @props.sample
-  #   @sound = new Howl {
-  #     urls: [@props.sample.url],
-  #     volume: 0.5,
-  #     buffer: true,
-  #     onload: =>
-  #       padState = {}
-  #       padState[@props.name] = @props.sample
-  #       @props.onSave padState
-  #   }
-  #
+  setupSound: (event) ->
+    console.log event, @props
+    @props.sample = url : event.target.value
+
+    return unless @props.sample
+    @sound = new Howl {
+      urls: [@props.sample.url],
+      volume: 0.5,
+      buffer: true,
+      onload: =>
+        padState = {}
+        padState[@props.name] = @props.sample
+        @props.onSave padState
+    }
+
   componentDidMount: ->
-    return
+    self = @
+    @meshbluConnection = @props.meshbluConnection
+    @meshbluConnection.on 'message', (message) =>
+      console.log 'Message received', message
+      console.log 'Properties', @props
+      play = message.play || message.payload?.play
+      if play == @props.name
+        self.playNote()
 
+  playNote: ->
+    console.log 'Playing the sample', @props.sample
+    @sound.play()
 
-  # onSampleSelection: (event) ->
-  #   sample = event.target.value
-  #
-  # playNote: ->
-  #   @sound.play()
-  #
-  # renderEditMode: ->
-  #   self = @
-  #   samples = _.map SAMPLES, (sample) =>
-  #     <option sample={sample.name} value={sample}>{sample.name}</option>
-  #
-  #   <div className="pad">
-  #     <select onChange={self.onSampleSelection}>
-  #       {samples}
-  #     </select>
-  #   </div>
+  renderEditMode: ->
+    console.log 'SAMPLES', SAMPLES
+    self = @
+    samples = _.map SAMPLES, (sample) =>
+      <option sample={sample.name} value={sample.sampleUrl}>{sample.name}</option>
 
-  componentWillMount: ->
-    return
+    <div className="pad">
+      <select onChange={self.setupSound}>
+        {samples}
+      </select>
+    </div>
+
 
   renderTrigger: ->
+    console.log 'Show Trigger'
     <div className="pad" onClick={@playNote}>{@props.name}</div>
 
   render: ->
     if @props.isEditing
-      <Selector sample={@props.sample}></Selector>
+      @renderEditMode()
     else
-      <Trigger padId={@props.sample.id} sample={@props.sample} meshbluConnection={@props.meshbluConnection}></Trigger>
+      @renderTrigger()
 
 module.exports = Pad
